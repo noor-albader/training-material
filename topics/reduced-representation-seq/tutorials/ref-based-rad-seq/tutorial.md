@@ -1,6 +1,6 @@
 ---
 layout: tutorial_hands_on
-topic_name: sequence-analysis
+topic_name: reduced-representation-seq
 tutorial_name: ref-based-rad-seq
 ---
 
@@ -11,7 +11,7 @@ In the study of [Hohenlohe *et al.* 2010](http://journals.plos.org/plosgenetics/
 
 ![The abstract of the paper on Population Genomics](../../images/RAD4_Population_Genomics/Hohenlohe_et_al_2010.png)
 
-We here proposed to re-analyze these data at least until the population genomics statistics calculation step using STACKS pipeline. *Gasterosteus aculeatus* draft genome will be used here as reference genome. In a reference-based RAD-seq data analysis, the reads are aligned (or mapped) against a reference genome to constrain our analysis to focus on already discovered loci. A de-novo approach can also be conducted (see [de_novo tutorial]({{site.baseurl}}/topics/sequence-analysis/tutorials/de-novo-rad-seq/tutorial.html), enhancing discoverability of new loci of interest but also of false positive one).
+We here proposed to re-analyze these data at least until the population genomics statistics calculation step using STACKS pipeline. *Gasterosteus aculeatus* draft genome will be used here as reference genome. In a reference-based RAD-seq data analysis, the reads are aligned (or mapped) against a reference genome to constrain our analysis to focus on already discovered loci. A de-novo approach can also be conducted (see [de_novo tutorial]({{site.baseurl}}/topics/reduced-representation-seq/tutorials/de-novo-rad-seq/tutorial.html), enhancing discoverability of new loci of interest but also of false positive one).
 
 
 > ### Agenda
@@ -51,6 +51,7 @@ We will look at the first run SRR034310 out of seven which includes 16 samples f
 >
 >    > ### {% icon comment %} Comments
 >    > If you are using the [GenOuest Galaxy instance](https://galaxy.genouest.org), you can load the dataset using 'Shared Data' <i class="fa fa-long-arrow-right"></i> 'Data Libraries' <i class="fa fa-long-arrow-right"></i> '1 Galaxy teaching folder' <i class="fa fa-long-arrow-right"></i> 'EnginesOn' <i class="fa fa-long-arrow-right"></i> 'RADseq' <i class="fa fa-long-arrow-right"></i> 'Stickelback population genomics' <i class="fa fa-long-arrow-right"></i> 'SRR034310'
+>    {: .comment}
 >
 >    > ### {% icon tip %} Tip: Changing the file type `fastq.gz` to `fastqsanger.gz` once the data file is in your history.
 >    > As we know here that the datatype is fastqsanger, we can directly change it through the upcoming method. Normally, you need to execute FastQGroomer to be sure to have a correct fastqsanger file format. And if you don't know how your quality score is encoded on raw fastQ files, please, use the FastQC tool to determine it!
@@ -59,6 +60,7 @@ We will look at the first run SRR034310 out of seven which includes 16 samples f
 >    > * Choose **Datatype** on the top
 >    > * Select `fastqsanger.gz`
 >    > * Press **Save**
+>    {: .tip}
 >
 >    As default, Galaxy takes the link as name. It also do not link the dataset to a database or a reference genome.
 >
@@ -66,7 +68,9 @@ We will look at the first run SRR034310 out of seven which includes 16 samples f
 >    > - Add the "stickleback" custom build from the Fasta reference genome file
 >    > - Edit the "Database/Build" to select "stickleback"
 >    > - Rename the datasets according to the samples
+>    {: .comment}
 >
+{: .hands_on}
 
 The sequences are raw sequences from the sequencing machine, without any pretreatments. They need to be demultiplexed. To do so, we can use the Process Radtags tool from STACKS.
 
@@ -84,6 +88,7 @@ For demultiplexing, we use the Process Radtags tool from [STACKS](https://www.g3
 >  - Enzyme: sbfI
 >  - Capture discarded reads to a file: Yes
 >  - Output format: fastq
+{: .hands_on}
 
 
 > ### {% icon question %} Questions
@@ -103,6 +108,7 @@ For demultiplexing, we use the Process Radtags tool from [STACKS](https://www.g3
 >    >
 >    > In addition to the overall statistics the numbers of retained and removed reads are also given for each bar code sequence.
 >    {: .solution }
+{: .question}
 
 In order to obtain results of higher quality we will play with the advanced options:  
 
@@ -111,6 +117,7 @@ In order to obtain results of higher quality we will play with the advanced opti
 > 2. **Process Radtags** {% icon tool %}: Re-Run `Stacks: process radtags` on FastQ file playing with parameters
 >   - In `advanced options`, activate the `Discard reads with low quality scores` option and play with the score limit (default (nolimit) vs 20 vs 10 for example) and examine the change in reads retained. 
 >   - Note that you can play also with the sliding window score threshold, by default 15% of the length of the read. This sliding window parameter allows notably the user to deal with the declining quality at the 3' end of reads.
+{: .hands_on}
 
 Then we generate a graphical display of the changes: 
 
@@ -122,6 +129,7 @@ Then we generate a graphical display of the changes:
 > 4. **Concatenate datasets tail-to-head** on the resulting data sets
 > 
 > Alternatively just copy/paste these lines on the Galaxy upload tool using Paste/fetch data section and modifying the File header by sample and filename by Score 10 / Score 20 and noscorelimit for example... Before Starting the upload, you can select the `Convert spaces to tabs` option through the `Upload configuration` wheel. If you did not pay attention to the order you can just sort the file using the first column.
+{: .hands_on}
 
 ```
 quality	Retained Reads	Low Quality	Ambiguous Barcodes	Ambiguous RAD-Tag	Total
@@ -157,7 +165,9 @@ For quality control, we use similar tools as described in [NGS-QC tutorial]({{si
 >    >    > ### {% icon solution %} Solution
 >    >    > The read length is 32 bp
 >    >    {: .solution }
+>    {: .question}
 >
+{: .hands_on}
 
 Note the quality drop at bases 5-10 which are the cut site of the RADSeq
 protocol (TGCAGG). This is caused by the extremely uneven distribution the
@@ -182,6 +192,7 @@ To make sense of the reads, their positions within *Gasterosteus aculeatus* geno
 > ### {% icon comment %} Comment
 >
 > Do you want to learn more about the principles behind mapping? Follow our [training]({{site.baseurl}}/topics/sequence-analysis/)
+{: .comment}
 
 Here we will use BWA. BWA is a fast light-weighted tool that aligns relatively short sequences (queries) to a sequence database (large), such as the human reference genome. It is developed by Heng Li at the Sanger Institute.
 
@@ -207,6 +218,7 @@ Run `Stacks: Reference map` Galaxy tool. This program will run pstacks, cstacks,
 > ### {% icon comment %} Comment
 >
 > Information on ref_map.pl and its parameters can be found online: https://creskolab.uoregon.edu/stacks/comp/ref_map.php.
+{: .comment}
 
 > **Stacks: Reference map** {% icon tool %}: 
 > - Select your usage: Population 
@@ -217,6 +229,7 @@ Run `Stacks: Reference map` Galaxy tool. This program will run pstacks, cstacks,
 >    > ### {% icon comment %} Comment
 >    >
 >    > If you are using a file presenting population information and individual name in a different manner than expected by STACKS, you can use Galaxy tools like `Regex Replace` or `Cut columns from a table` to generate it.
+>    {: .comment}
 
 > Once Stacks has completed running, investigate the output files: `Summary from Stacks ref_map.log with Stacks` and `Catalog haplotypes (*)` (snps, alleles and tags). 
 > TODO: Summary from Stacks has some quite nice html output (seems preferable to the log file which is named ref_map.log .. not results.log)
@@ -246,6 +259,7 @@ Run `Stacks: Reference map` Galaxy tool. This program will run pstacks, cstacks,
 >    >    > - 0.75
 >    >    > - 3500
 >    >    {: .solution }
+>    {: .question}
 > TODO: There is no column named `FST`, but one named `Fst'` (column 30). I find larger values than 0.75 in my results (e.g. 1.00.
 
 

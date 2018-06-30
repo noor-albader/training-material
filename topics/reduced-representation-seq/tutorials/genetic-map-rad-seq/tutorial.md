@@ -1,6 +1,6 @@
 ---
 layout: tutorial_hands_on
-topic_name: sequence-analysis
+topic_name: reduced-representation-seq
 tutorial_name: genetic-map-rad-seq
 ---
 
@@ -37,6 +37,7 @@ The original data is available at [STACKS website](http://catchenlab.life.illino
 >
 >    > ### {% icon comment %} Comments
 >    > If you are using the [GenOuest Galaxy instance](https://galaxy.genouest.org), you can load the dataset using 'Shared Data' -> 'Data Libraries' -> '1 Galaxy teaching folder' -> 'EnginesOn' -> 'RADseq' -> 'Genetic map'
+>    {: .comment}
 >
 >    > ### {% icon tip %} Tip: Importing data via links
 >    >
@@ -69,9 +70,11 @@ The original data is available at [STACKS website](http://catchenlab.life.illino
 >    > https://zenodo.org/record/1219888/files/progeny_20
 >    > ```
 >    > * Press **Start**  
+>    {: .tip}
 >
 >    As default, Galaxy takes the link as name. It does not link the dataset to a database or a reference genome.
 >
+{: .hands_on}
 
 # Building loci using STACKS
 
@@ -80,6 +83,7 @@ Run `Stacks: De novo map` Galaxy tool. This program will run `ustacks`, `cstacks
 > ### {% icon comment %} Comment
 >
 > Information on `denovo_map.pl` and its parameters can be found online: https://creskolab.uoregon.edu/stacks/comp/denovo_map.php.
+{: .comment}
 
 
 > **Stacks: De novo map** {% icon tool %}: Run Stacks selecting the Genetic map usage. Specify each parent as a sample in the appropriate box, then each of the 20 progeny and specify a CP Cross type, 3 for the Minimum number of identical raw reads required to create a stack, 3 for minimum number of identical raw reads required to create a stack in 'progeny' individuals, 3 for the number of mismatches allowed between loci when building the catalog and activate the option "remove, or break up, highly repetitive RAD-Tags in the ustacks program".
@@ -116,6 +120,7 @@ Run `Stacks: De novo map` Galaxy tool. This program will run `ustacks`, `cstacks
 >    >    > 1. Here, the catalog is made with 459 tags, 425 coming from the "reference individual", a female. Some of these 425 can be shared with the other parent.
 >    >    > 2. 3500
 >    >    {: .solution }
+>    {: .question}
 >
 >    `sstacks`
 >
@@ -213,6 +218,7 @@ Run `Stacks: De novo map` Galaxy tool. This program will run `ustacks`, `cstacks
 >    >    > 1. This value of 3 is important to use if we don't want to blacklist loci for whom 99.9% of individuals have one and/or the alt allele and 0.01% have a third one, resulting of a sequencing error.
 >    >    > 2. We see a moficiation of the number of unverified haplotypes
 >    >    {: .solution }
+>    {: .question}
 
 # Conclusion
 {:.no_toc}
