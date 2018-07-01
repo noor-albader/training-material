@@ -7,16 +7,22 @@ tutorial_name: genome-annotation
 # Introduction
 {:.no_toc}
 
-Genome annotation is the process of attaching biological information to sequences.
+The data is this Galaxy tutorial is from the published fungal genome Aspergillus fumigatus in Denning et al. in 2005, avaliable at https://doi.org/10.1038/nature04332. The goal of the study was to assemble the genome of A. fumigatus Af293, sequenced by whole-genome sequencing (WGS) method. In this tutorial, a section of this assembled genome was retrieved to annotate the sequenced genome, called genome annotation. Genome annotation is the process of attaching biological information to sequences.
+
 It consists of three main steps:
 
  - identifying portions of the genome that do not code for proteins
  - identifying elements on the genome, a process called gene prediction, and
  - attaching biological information to these elements.
 
+# Agenda 
+{:.no_toc}
+
+
+
 > ### Agenda
 >
-> In this tutorial, we will deal with:
+> In this tutorial, we will deal with files and their formats:
 >
 > 1. TOC
 > {:toc}
@@ -27,7 +33,7 @@ It consists of three main steps:
 
 **FASTA**
 
-> DNA and protein sequences are written in FASTA format where you have in the first line a ">" followed by the description. In the second line the sequence starts.
+> DNA and protein sequences are written in FASTA format where you have in the first line a ">" followed by the description. In the second line the sequence starts. FASTA files do not contain gene annotations just the sequences with their description.
 
 ![FASTA file](../../images/fasta_format.png)
 
@@ -63,11 +69,11 @@ First we want to get some general information about our sequence.
 
 ## Gene Prediction
 
-At first you need to identify those structures of the genome which code for proteins. This step of annotation is called “structural annotation”. It contains the identification and location of open reading frames (ORFs), identification of gene structures and coding regions, and the location of regulatory motifs. Galaxy contains several tools for the structural annotation. Tools for gene prediction are **Augustus** (for eukaryotes and prokaryotes) and **glimmer3** (only for prokaryotes).
+First you need to identify those structures of the genome which code for proteins. This step of annotation is called “structural annotation”. It can include the identification and location of open reading frames (ORFs), identification of gene structures and coding regions, and the location of regulatory motifs. Galaxy contains several tools for the structural annotation. Tools for gene prediction are **Augustus** (for eukaryotes and prokaryotes) or **glimmer3** (only for prokaryotes).
 
 > ### {% icon hands_on %} Hands-on: Gene prediction
 >
-> We use **Augustus** for gene prediction.
+> We will use **Augustus** for gene prediction.
 > 1. Use the genome sequence (FASTA file) as input.
 > 2. Choose the right *model organism*, *gff* format output.
 > 3. Select all possible output options.
@@ -87,11 +93,15 @@ At first you need to identify those structures of the genome which code for prot
 >
 {: .hands_on}
 
+## tRNA and tmRNA Prediciton 
+
+You may also want to identify mRNA and tRNA in your genome (FASTA file). You can do this by using the tool Aragon, which takes a FASTA file as input and outputs linear based secondary structures via cloverleaf diagrams. 
+
 > ### {% icon hands_on %} Hands-on: tRNA and tmRNA Prediction
 >
 > Use **Aragorn** for tRNA and tmRNA prediction.
 > 1. As input file use the *Aspergillus* genome sequence. You can choose the genetic code (e.g. bacteria).
-> 2. Select the topology of your genome (circular or linear).
+> 2. Select the topology of your genome (circular or linear, default circular).
 >
 >    > ### {% icon question %} Question
 >    >
@@ -110,9 +120,9 @@ At first you need to identify those structures of the genome which code for prot
 
 ## Similarity Searches (BLAST)
 
-Functional gene annotation means the description of the biochemical and biological function of proteins. Possible analyses to annotate genes can be for example:
+Functional gene annotation means the description of a gene's (or proteins's) identitiy from its biochemical, molecular, subcellular location to broader biological function. Other information functional gene annotation provides is it aliases, names of that gene that may relay infromation on its gene family it belongs to or its function. Possible analyses to annotate genes can be for example:
 
-- similarity searches
+- similarity searches (BLAST or other local aligners)
 - gene cluster prediction for secondary metabolites
 - identification of transmembrane domains in protein sequences
 - finding gene ontology terms
@@ -167,9 +177,44 @@ This file will be the input for more detailed analysis:
 
 ### BLAST Programs
 
-![BLAST programs](../../images/blastprograms.png)
+BLAST Program | Input data | searching against	| Description
+--- | --- | --- | ---
+blastp | amino acid sequence | protein sequences	| compares an amino acid query sequence against a protein sequence database
+blastn | nucleotide sequence | nucleotide sequences	| compares a nucleotide query sequence against a nucleotide sequence database
+blastx | translated nucleotide sequence | protein sequences	| compares a nucleotide query sequence translated in all reading frames against a protein database. You could use this option to find potential translation products of an unknown nucleotide sequence 
+tblastn | amino acid sequence | translated nucleotide sequence | compares a protein query sequence against a nucleotide sequence database dynamically translated in all reading frames	
+tblastx | translated nucleotide sequence | translated nucleotide sequence	| compares the six-frame translations of a nucleotide query sequence against the six-frame translation of a nucleotide database
 
-![BLAST databases](../../images/blast%20database.png)
+Additional BLAST programs | Description			
+--- | --- 
+megablast |	finds very similar sequences (intraspecies or closely related species)			
+blastn -short |	optimized for sequences shorther than 50 bases			
+blastp-short	| optimized for sequences shorther than 30 residues			
+dc-megablast	| discontiguous megablast used to find more distant sequences (interspecies)			
+PSI-Blast	| Position-specific iterated (PSI)-BLAST is the most sensitive Blast program,	making it useful for finding very distantly related proteins. Use PSI-blast when	your standard protein-protein blast search either failed to find significant hits,	or returned hits with description such as "hypothetical protein".
+PHI-Blast	Pattern-Hit Initiated (PHI) | BLAST is designed to search for proteins that	contain a pattern specified by the user, AND are similar to the query	sequence in the vicinity of the pattern.	
+
+Protein Database | Description 
+--- | --- 
+SwissProt | manually annotated and reviewed section of the UniProt Knowledgebase (UniProtKB)
+Trembl | automatically annotated and is not reviewed
+PDB | Proteins with information about the 3D structures
+RefSeq Protein | annotated and curated collection of publicly available protein sequences
+NCBI NR | non redundant
+
+Nucleotide Database | Description 
+--- | --- 
+NCBI NT | nucleotide database
+vector |	vector backbones
+RefSeq RNA	| annotated and curated collection of publicly available RNA sequences
+RefSeq Genomics	| Sequence data is provided for all single organism genome assemblies that are included in NCBI's Assembly resource
+EST | Expressed sequence tags
+UniVec | NCBI's vector library
+UniVec Core	| NCBI's vector library
+WGS	| whole genome shotgun sequences
+NT + RefSeq Genomcs	| ?
+SILVA rRNA | aligned small (168/183, SSU) and large subunit (233/283, LSU) ribosomal RNA (rRNA) sequences for all three domains of life (Bacteria, Archaea and Eukarya).
+
 
 > ### {% icon tip %} Tip:
 >
