@@ -35,12 +35,12 @@ In this tutorial we will use the first 7 samples:
 
 Each sample constitutes a separate biological replicate of the corresponding condition (treated or untreated). Moreover, two of the treated and two of the untreated samples are from a paired-end sequencing assay, while the remaining samples are from a single-end sequencing experiment.
 
-We have extracted sequences from the Sequence Read Archive (SRA) files to create FASTQ files.
+The raw RNA-seq reads have been extracted from the Sequence Read Archive (SRA) files and converted into FASTQ files. In the first part of this tutorial we will use the files for 2 of the 7 samples, to demonstrate analysis of FASTQs. Optionally later you can import the FASTQs for the other 5 samples.
 
 > ### {% icon hands_on %} Hands-on: Data upload
 >
 > 1. Create a new History for this RNA-seq exercise
-> 2. Import the FASTQ file pairs for
+> 2. Import the paired-end FASTQ files for 2 samples
 >       - `GSM461177` (untreated): `GSM461177_1` and `GSM461177_2`
 >       - `GSM461180` (treated): `GSM461180_1` and `GSM461180_2`
 >
@@ -63,17 +63,11 @@ We have extracted sequences from the Sequence Read Archive (SRA) files to create
 >           ```
 >           https://zenodo.org/record/1185122/files/GSM461177_1.fastqsanger
 >           https://zenodo.org/record/1185122/files/GSM461177_2.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461178_1.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461178_2.fastqsanger
 >           https://zenodo.org/record/1185122/files/GSM461180_1.fastqsanger
 >           https://zenodo.org/record/1185122/files/GSM461180_2.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461181_1.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461181_2.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461176.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461179.fastqsanger
->           https://zenodo.org/record/1185122/files/GSM461182.fastqsanger
+>
 >           ```
->  Note that these are the full files for the samples and ~1.5Gb each so it may take some minutes to import. (For a quicker run-through of the tutorial a small subset of each FASTQ file (~5Mb) can be found here https://zenodo.org/record/290221).
+>  Note that these are the full files for the samples and ~1.5Gb each so it may take some minutes to import. (For a quicker run-through of the FASTQ steps a small subset of each FASTQ file (~5Mb) can be found here https://zenodo.org/record/290221).
 >
 > 3. Click the pencil button on each dataset in the history and rename the file according to the sample id (e.g. `GSM461177_1`) 
 > 4. Check that the datatype is `fastqsanger` (e.g. **not** `fastq`).
@@ -515,6 +509,17 @@ In the previous section, we counted reads that mapped to genes for two sample. T
 >     - `GSM461176`
 >     - `GSM461179`
 >     - `GSM461182`
+> The links to these files are below:
+>
+>    ```
+>    https://zenodo.org/record/1185122/files/GSM461178_1.fastqsanger
+>    https://zenodo.org/record/1185122/files/GSM461178_2.fastqsanger
+>    https://zenodo.org/record/1185122/files/GSM461181_1.fastqsanger
+>    https://zenodo.org/record/1185122/files/GSM461181_2.fastqsanger
+>    https://zenodo.org/record/1185122/files/GSM461176.fastqsanger
+>    https://zenodo.org/record/1185122/files/GSM461179.fastqsanger
+>    https://zenodo.org/record/1185122/files/GSM461182.fastqsanger
+>    ```
 >
 > This is really interesting to redo on the other datasets, specially to check how the parameters are inferred given the different type of data.
 {: .hands_on}
