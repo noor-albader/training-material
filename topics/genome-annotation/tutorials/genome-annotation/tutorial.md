@@ -12,13 +12,16 @@ The data is this Galaxy tutorial is from the published fungal genome Aspergillus
 It consists of three main steps:
 
  - identifying portions of the genome that do not code for proteins
- - identifying elements on the genome, a process called gene prediction, and
- - attaching biological information to these elements.
+ - identifying portions on the genome that may code for protiens, a process called gene prediction
+ - attaching biological information to both these elements.
+
+# Analysis Strategy
+{:.no_toc}
+
+The goal of this tutorial is downstream analysis to a genome assembly by identifying genome elements by gene prediction. Following that step, attaching fucntional gene identies to the gene prediction using multiple tools and databases.
 
 # Agenda 
 {:.no_toc}
-
-
 
 > ### Agenda
 >
@@ -35,23 +38,58 @@ It consists of three main steps:
 
 > DNA and protein sequences are written in FASTA format where you have in the first line a ">" followed by the description. In the second line the sequence starts. FASTA files do not contain gene annotations just the sequences with their description.
 
-![FASTA file](../../images/fasta_format.png)
+>*>CM000169.1 CM000169.1 Aspergillus fumigatus Af293 chromosome 1, whole genome shotgun sequence
+GCCGTCATTGGTGTGCAAGTGTAAGTAGATCGACCACAAAATGAGACCCAAGGCTAACGC
+TAGTTACCTGAATAGGAATGACGACGAGCGTCCTCGAGCGTATATTGTGCTAAAGCCAGG
+GCACAACGCCGCCGCGAACGACATTGTCGCCTTCATGGATGGCAAAGTGTCTGCGATCAA
+
 
 **GFF3**
 
-> The general feature format (gene-finding format, generic feature format, GFF) is a file format used for describing genes and other features of DNA, RNA and protein sequences.
+> The general feature format (gene-finding format, generic feature format, GFF) is a file format used for describing genes and other features of DNA, RNA and protein sequences. For more information on what each column denotes: <https://www.ensembl.org/info/website/upload/gff.html>
 
-<img src="../../images/gff3_format.png" alt="GFF3 overview" width="70%">
+|  seqnqme   |  source   | feature   |  start   |   end   |  score   |  strand   |  frame   |  attribute   |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+CM000169.1	| AUGUSTUS	| gene	| 3168	| 4292	| 0.99	| +	| .	| ID=CM000169.1.g1
+CM000169.1	| AUGUSTUS	| transcript	| 3168	| 4292	| 0.99	| +	| .	| ID=CM000169.1.gl.t1;Parent=CMo00169.1.gl
+CM000169.1	| AUGUSTUS	| start_codon	| 3168	| 3170	| .	| +	| 0	| Parent=CM000169.1.g1.t1
+CM000169.1	| AUGUSTUS	| intron	| 3339	| 3422	| 1	| +	| .	| Parent=CM000169.1.gl.tl
+CM000169.1	| AUGUSTUS	| CDS	| 3168	| 3338	| 0.99	| +	| 0	| ID=CM000169.1.g1.t1.cds;Parent=CMo00169.1.g1.t1
+CM000169.1	| AUGUSTUS	| CDS	| 3423	| 4289	| 1	| +	| 0	| ID=CM000169.1.gl.t1.cds;Parent=CM000169.1.gl.t1
+CM000169.1	| AUGUSTUS	| stop_codon	| 4290	| 4292	| .	| +	| 0	| Parent=CM000169.1.g1.t1
 
 **GENBANK**
 
->The genbank sequence format is a rich format for storing sequences and associated annotations.
-
-![genbank file](../../images/gb_full.png)
+>The GenBank file format (GenBank Flat File Format) is a rich file format used for storing sequences and associated annotations. The file consists of two sections, an annotation section that starts with the header LOCUS and a sequence section that starts with the header ORIGIN and ends by a line with "//". 
 
 # Structural Annotation
 
-For the genome annotation we use a piece of the *Aspergillus fumigatus* [genome sequence](https://zenodo.org/record/1250793/files/Aspergillus_sequence.fasta) as input file.
+## Data upload
+The original data is available at NCBI  assembly under accession number: GCA_000002655.1 
+We will use a subsetted part of the geneome for this tutorial that can be found here [genome sequence](https://zenodo.org/record/1250793/files/Aspergillus_sequence.fasta)
+
+> ### {% icon hands_on %} Hands-on: Data upload
+> 1. Create a new history for this RNA-seq exercise
+> 2. Import the FASTQ (sequence) file:
+>       To import the files, there are two options:
+>       - Option 1:  From a shared data library if available (ask your instructor)
+>       - Option 2: From [Zenodo] (https://zenodo.org/record/1250793/files/Aspergillus_sequence.fasta)
+>
+>           > ### {% icon tip %} Tip: Importing data via links
+>           >
+>           > * Copy the link location
+>           > * Open the Galaxy Upload Manager
+>           > * Select **Paste/Fetch Data**
+>           > * Paste the link into the text field
+>           > * Press **Start**    
+>           {: .tip}
+>           
+>           You can directly paste:
+>
+>           ```
+>           (https://zenodo.org/record/1250793/files/Aspergillus_sequence.fasta)
+>           ```
+{: .hands_on}
 
 ## Sequence Features
 
